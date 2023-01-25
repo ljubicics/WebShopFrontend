@@ -19,7 +19,7 @@ export default new Vuex.Store({
   },
   actions: {
     fetchProducts({ commit }) {
-      fetch("localhost:8000/admin/products/", {
+      fetch("http://localhost:8000/admin/products/", {
         method: "GET",
       })
         .then((obj) => obj.json())

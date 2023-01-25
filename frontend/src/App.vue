@@ -16,7 +16,9 @@
           <b-navbar-nav class="ms-auto">
             <b-nav-item to="/">Home</b-nav-item>
             <b-nav-item-dropdown text="Products">
-              <b-dropdown-item> "ENGLESKI" </b-dropdown-item>
+              <b-dropdown-item v-for="prod in products" :key="prod.productID">
+                {{ prod.product_name }}
+              </b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item to="/contact">Contact</b-nav-item>
             <b-nav-item to="/yourcart">Cart</b-nav-item>
@@ -31,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "App",
 
@@ -40,7 +43,17 @@ export default {
     };
   },
 
-  methods: {},
+  computed: {
+    ...mapState(["products"]),
+  },
+
+  methods: {
+    ...mapActions(["fetchProducts"]),
+  },
+
+  mounted() {
+    this.fetchProducts();
+  },
 };
 </script>
 
