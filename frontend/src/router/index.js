@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ProductView from "../views/AllProductsView.vue";
 import SingleTypeView from "../views/SingleTypeView.vue";
+import RegisterView from "../views/RegisterView.vue";
+import LoginView from "../views/LoginView.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,16 @@ const routes = [
     path: "/prodType/:id",
     name: "Product type",
     component: SingleTypeView,
+  },
+  {
+    path: "/signup",
+    name: "Register",
+    component: RegisterView,
+  },
+  {
+    path: "/signin",
+    name: "SignIn",
+    component: LoginView,
   },
 ];
 

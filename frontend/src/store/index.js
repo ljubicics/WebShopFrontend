@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     products: [],
     productTypes: [],
+    token: "",
   },
   mutations: {
     addProducts(state, product) {
@@ -18,8 +19,36 @@ export default new Vuex.Store({
     setProductTypes(state, productTypes) {
       state.productTypes = productTypes;
     },
+    setToken(state, token) {
+      state.token = token;
+      localStorage.token = token;
+    },
+    removeToken(state) {
+      state.token = "";
+      localStorage.token = "";
+    },
+    getToken() {
+      return localStorage.token;
+    },
   },
   actions: {
+    login: function ({ commit }, obj) {
+      fetch("http://localhost:9000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(obj),
+      })
+        .then((res) => res.json())
+        .then((tkn) => {
+          console.log(tkn.token);
+          if (tkn.msg) {
+            alert(tkn.msg);
+            return tkn.msg;
+          } else {
+            commit("setToken", tkn.token);
+          }
+        });
+    },
     fetchProducts({ commit }) {
       fetch("http://localhost:8000/admin/products/", {
         method: "GET",
@@ -29,7 +58,6 @@ export default new Vuex.Store({
           commit("addProducts", res.data);
         });
     },
-
     fetchProductTypes({ commit }) {
       fetch("http://localhost:8000/admin/productTypes/", {
         method: "GET",

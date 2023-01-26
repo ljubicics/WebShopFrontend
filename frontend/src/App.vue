@@ -3,11 +3,7 @@
     <div>
       <b-navbar toggleable="sm" type="light" variant="light">
         <b-navbar-brand to="/">
-          <img
-            src="./assets/gem.png"
-            class="d-inline-block align-top"
-            alt="Diamond"
-          />
+          <img src="./assets/gem.png" class="d-inline-block align-top" alt="Diamond" />
           Zlatara
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -24,14 +20,13 @@
                 >
                 {{ prodType.typeName + "s" }}
               </b-dropdown-item>
-              <b-dropdown-item to="/products"
-                >Show All Products</b-dropdown-item
-              >
+              <b-dropdown-item to="/products">Show All Products</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item to="/contact">Contact</b-nav-item>
-            <b-nav-item to="/yourcart">Cart</b-nav-item>
-            <b-nav-item to="/signin">Sign In</b-nav-item>
-            <b-nav-item to="/signup">Sign Up</b-nav-item>
+            <b-nav-item v-if="token" to="/yourcart">Cart</b-nav-item>
+            <b-nav-item v-if="token" to="/logout">Sign Out</b-nav-item>
+            <b-nav-item v-if="!token" to="/signin">Sign In</b-nav-item>
+            <b-nav-item v-if="!token" to="/signup">Sign Up</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -41,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "App",
 
@@ -52,16 +47,21 @@ export default {
   },
 
   computed: {
-    ...mapState(["products", "productTypes"]),
+    ...mapState(["products", "productTypes", "token"]),
   },
 
   mounted() {
     this.fetchProducts();
     this.fetchProductTypes();
+    //this.removeToken();
+    if (localStorage.token) {
+      this.setToken(localStorage.token);
+    }
   },
 
   methods: {
     ...mapActions(["fetchProducts", "fetchProductTypes"]),
+    ...mapMutations(["removeToken", "setToken"]),
   },
 };
 </script>
