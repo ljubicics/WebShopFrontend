@@ -10,11 +10,13 @@ export default new Vuex.Store({
   },
   mutations: {
     addProducts(state, product) {
-      state.products.push(product);
+      state.products = product;
     },
-
-    addProductType(state, productType) {
-      state.productTypes = productType;
+    addProductTypes(state, productType) {
+      state.productTypes.push(productType);
+    },
+    setProductTypes(state, productTypes) {
+      state.productTypes = productTypes;
     },
   },
   actions: {
@@ -23,7 +25,26 @@ export default new Vuex.Store({
         method: "GET",
       })
         .then((obj) => obj.json())
-        .then((res) => commit("addProducts", res.products));
+        .then((res) => {
+          commit("addProducts", res.data);
+        });
+    },
+
+    fetchProductTypes({ commit }) {
+      fetch("http://localhost:8000/admin/productTypes/", {
+        method: "GET",
+      })
+        .then((obj) => obj.json())
+        .then((res) => {
+          res.data.forEach((el) => {
+            fetch(`http://localhost:8000/admin/products/byType/${el.id}`)
+              .then((obj2) => obj2.json())
+              .then((data) => {
+                el["productsForType"] = data;
+              });
+          });
+          commit("setProductTypes", res.data);
+        });
     },
   },
 });

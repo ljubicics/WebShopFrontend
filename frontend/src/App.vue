@@ -8,7 +8,7 @@
             class="d-inline-block align-top"
             alt="Diamond"
           />
-          Zlatara Ljubicic
+          Zlatara
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -16,9 +16,17 @@
           <b-navbar-nav class="ms-auto">
             <b-nav-item to="/">Home</b-nav-item>
             <b-nav-item-dropdown text="Products">
-              <b-dropdown-item v-for="prod in products" :key="prod.productID">
-                {{ prod.product_name }}
+              <b-dropdown-item
+                v-for="prodType in productTypes"
+                :key="prodType.id"
+                :to="`/prodType/${prodType.id}`"
+              >
+                >
+                {{ prodType.typeName + "s" }}
               </b-dropdown-item>
+              <b-dropdown-item to="/products"
+                >Show All Products</b-dropdown-item
+              >
             </b-nav-item-dropdown>
             <b-nav-item to="/contact">Contact</b-nav-item>
             <b-nav-item to="/yourcart">Cart</b-nav-item>
@@ -44,15 +52,16 @@ export default {
   },
 
   computed: {
-    ...mapState(["products"]),
-  },
-
-  methods: {
-    ...mapActions(["fetchProducts"]),
+    ...mapState(["products", "productTypes"]),
   },
 
   mounted() {
     this.fetchProducts();
+    this.fetchProductTypes();
+  },
+
+  methods: {
+    ...mapActions(["fetchProducts", "fetchProductTypes"]),
   },
 };
 </script>
