@@ -2,11 +2,11 @@
   <div id="app">
     <b-container>
       <b-form @submit.stop.prevent @submit="onSubmit">
-        <b-form-group label="First name:" label-for="firstName">
+        <b-form-group label="First name:" label-for="first_name">
           <b-form-input
             :state="validatorFName"
-            id="firstName"
-            v-model="form.firstName"
+            id="first_name"
+            v-model="form.first_name"
             type="text"
             placeholder="First name"
             required
@@ -15,11 +15,11 @@
             First name must contain more than 1 character.
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group label="Last name:" label-for="lastName">
+        <b-form-group label="Last name:" label-for="last_name">
           <b-form-input
             :state="validatorLName"
             id="lastName"
-            v-model="form.lastName"
+            v-model="form.last_name"
             type="text"
             placeholder="Last name"
             required
@@ -54,6 +54,19 @@
             Username must be between 3 and 30 characters.
           </b-form-invalid-feedback>
         </b-form-group>
+        <b-form-group label="Street:" label-for="street">
+          <b-form-input
+            :state="validatorStreet"
+            id="street"
+            v-model="form.street"
+            type="text"
+            placeholder="Street"
+            required
+          ></b-form-input>
+          <b-form-invalid-feedback :state="validatorUsername">
+            Username must be between 3 and 30 characters.
+          </b-form-invalid-feedback>
+        </b-form-group>
         <b-form-group label="Password:" label-for="password">
           <b-form-input
             :state="validatorPassword"
@@ -63,7 +76,7 @@
             placeholder="Password"
             required
           ></b-form-input>
-          <b-form-invalid-feedback :state="validatorUsername">
+          <b-form-invalid-feedback :state="validatorPassword">
             Password must be between 8 and 256 characters.
           </b-form-invalid-feedback>
           <b-form-valid-feedback
@@ -72,14 +85,15 @@
               validatorPassword &&
               validatorEmail &&
               validatorFName &&
-              validatorLName
+              validatorLName &&
+              validatorStreet
             "
           >
           </b-form-valid-feedback>
         </b-form-group>
         <b-button-group>
           <b-button type="submit" variant="dark" id="submit">Sign Up</b-button>
-          <b-button type="submit" variant="dark" id="goToSignIn" to="/signin">Go to Sign In </b-button>
+          <b-button variant="dark" id="goToSignIn" to="/signin">Go to Sign In </b-button>
         </b-button-group>
       </b-form>
     </b-container>
@@ -100,38 +114,40 @@ export default {
         username: "",
         password: "",
         email: "",
-        firstName: "",
-        lastName: "",
+        first_name: "",
+        last_name: "",
+        street: "",
       },
     };
   },
 
   methods: {
-    //...mapActions(["register"]),
-    /*onSubmit(e) {
+    ...mapActions(["register"]),
+    onSubmit(e) {
       e.preventDefault();
       const data = {
-        firstName: this.form.firstName,
-        lastName: this.form.lastName,
+        first_name: this.form.first_name,
+        last_name: this.form.last_name,
         email: this.form.email,
         username: this.form.username,
         password: this.form.password,
+        street: this.form.street,
       };
       if (
         this.validatorEmail &&
         this.validatorFName &&
         this.validatorLName &&
         this.validatorPassword &&
-        this.validatorUsername
+        this.validatorUsername &&
+        this.validatorStreet
       ) {
         this.register(data);
         this.$router.push({ name: "home" });
       }
-    },*/
+    },
   },
   computed: {
     validatorUsername() {
-      console.log("ispis za name" + this.form.username);
       return this.form.username.length >= 3 && this.form.username.length <= 30;
     },
     validatorPassword() {
@@ -142,10 +158,13 @@ export default {
       return false;
     },
     validatorFName() {
-      return this.form.firstName.length >= 1 && this.form.firstName.length <= 128;
+      return this.form.first_name.length >= 1 && this.form.first_name.length <= 128;
     },
     validatorLName() {
-      return this.form.lastName.length >= 1 && this.form.lastName.length <= 128;
+      return this.form.last_name.length >= 1 && this.form.last_name.length <= 128;
+    },
+    validatorStreet() {
+      return this.form.street.length >= 3 && this.form.street.length <= 30;
     },
   },
 };

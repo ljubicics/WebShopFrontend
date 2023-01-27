@@ -34,7 +34,7 @@
         <br />
         <b-button-group>
           <b-button type="submit" variant="dark" id="submit">Log In</b-button>
-          <b-button type="submit" variant="dark" id="goToSignIn" to="/signup">Go to Sign Up </b-button>
+          <b-button variant="dark" id="goToSignIn" to="/signup">Go to Sign Up </b-button>
         </b-button-group>
       </b-form>
     </div>

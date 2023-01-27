@@ -17,16 +17,15 @@
                 :key="prodType.id"
                 :to="`/prodType/${prodType.id}`"
               >
-                >
                 {{ prodType.typeName + "s" }}
               </b-dropdown-item>
               <b-dropdown-item to="/products">Show All Products</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item to="/contact">Contact</b-nav-item>
             <b-nav-item v-if="token" to="/yourcart">Cart</b-nav-item>
-            <b-nav-item v-if="token" to="/logout">Sign Out</b-nav-item>
             <b-nav-item v-if="!token" to="/signin">Sign In</b-nav-item>
             <b-nav-item v-if="!token" to="/signup">Sign Up</b-nav-item>
+            <b-nav-item v-else @click="logout()" to="/">Sign Out</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -53,15 +52,18 @@ export default {
   mounted() {
     this.fetchProducts();
     this.fetchProductTypes();
-    //this.removeToken();
+    this.fetchReviews();
     if (localStorage.token) {
       this.setToken(localStorage.token);
     }
   },
 
   methods: {
-    ...mapActions(["fetchProducts", "fetchProductTypes"]),
+    ...mapActions(["fetchProducts", "fetchProductTypes", "fetchReviews"]),
     ...mapMutations(["removeToken", "setToken"]),
+    logout() {
+      this.removeToken();
+    },
   },
 };
 </script>

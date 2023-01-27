@@ -5,6 +5,8 @@ import ProductView from "../views/AllProductsView.vue";
 import SingleTypeView from "../views/SingleTypeView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
+import SingleProductView from "../views/SingleProductView.vue";
+import CartView from "../views/CartView.vue";
 
 Vue.use(VueRouter);
 
@@ -20,8 +22,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
     path: "/products",
@@ -42,6 +43,16 @@ const routes = [
     path: "/signin",
     name: "SignIn",
     component: LoginView,
+  },
+  {
+    path: "/single/:id",
+    name: "SingleProductView",
+    component: SingleProductView,
+  },
+  {
+    path: "/yourcart",
+    name: "CartView",
+    component: CartView,
   },
 ];
 

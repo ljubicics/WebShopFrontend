@@ -47,8 +47,9 @@ export default {
   mounted() {},
 
   methods: {
-    rowClicked(record, index) {
-      this.$router.push({ name: "Single", params: { id: record.objectID } });
+    rowClicked(product, index) {
+      this.$router.push({ name: "SingleProductView", params: { id: product.id } });
+      console.log(product.id);
     },
   },
 };
