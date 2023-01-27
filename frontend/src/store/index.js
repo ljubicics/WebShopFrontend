@@ -166,5 +166,16 @@ export default new Vuex.Store({
           });
       });
     },
+    removeProductFromCart({ commit, state, dispatch }, obj) {
+      //console.log(JSON.stringify(obj));
+      fetch(`http://localhost:8000/admin/cart/${obj.productID}/${obj.userID}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${state.token}` },
+      })
+        .then((obj) => obj.json())
+        .then((res) => {
+          console.log("YOU DELETED ITEM");
+        });
+    },
   },
 });

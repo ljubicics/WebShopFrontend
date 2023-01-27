@@ -40,6 +40,7 @@ export default {
       productIDs: [],
       currCart: null,
       totalPrice: 0,
+      userID: null,
     };
   },
   computed: {
@@ -49,19 +50,22 @@ export default {
     this.currCart = this.cart;
   },
   methods: {
-    ...mapActions(["getToken", "getCart", "removeGameFromCart", "getProduct"]),
-    removeFromCart(id) {
+    ...mapActions(["getToken", "getCart", "removeProductFromCart", "getProduct"]),
+    removeFromCart(productID, userID) {
       let token = localStorage.token;
       let payload = token.split(".")[1];
       let user = JSON.parse(atob(payload));
-      this.currCart.forEach((el) => {
-        if (el.productID == id) {
-          console.log(el.id);
-        }
-      });
+      const obj = {
+        productID: productID,
+        userID: user.id,
+      };
+      this.removeProductFromCart(obj);
     },
   },
   mounted() {
+    let token = localStorage.token;
+    let payload = token.split(".")[1];
+    let user = JSON.parse(atob(payload));
     this.currCart.forEach((el) => {
       this.productIDs.push(el.productID);
     });
@@ -75,7 +79,7 @@ export default {
         }
       });
     });
-    console.log(this.totalPrice);
+    this.userID = user.id;
   },
 };
 </script>
